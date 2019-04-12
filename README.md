@@ -1,6 +1,7 @@
 # HTML2Clipboard v0.1
-a python3 module to put HTML string into win clipboard with format
-一个使用python3直接将Html字符串转换成可以被识别的剪贴板html内容，可以直接带格式粘贴在微信公众号后台等处。
+a python3 module to put HTML string into win clipboard with format  
+
+将Html文本以可识别的格式放入win剪贴板中。剪贴板内容可以直接带格式粘贴在微信公众号后台等处。
 ## 使用方法：
 ```python3
 import HTML2Clipboard
