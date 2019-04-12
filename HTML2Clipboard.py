@@ -20,29 +20,30 @@ class MainClass:
         self.prefix = "Version:1.0\r\nStartHTML:00000097\r\nEndHTML:%8d\r\nStartFragment:00000191\r\nEndFragment:%8d\r\n<!DOCTYPE html><HTML><HEAD><TITLE>HTML To Clipboard!</TITLE></HEAD><BODY><!--StartFragment -->"
         #后缀模板 长度33 EndHTML = EndFragment + 33
         self.suffix = "<!--EndFragment --></BODY></HTML>"
-        #用来存储html代码片段的属性
+        #html代码
         self.fragment = ''
         #self.selection = None
         #self.source = None
         #self.htmlClipboardVersion = None
         '''
-        注册"HTML Format"格式，返回一个整数数字，该数字为剪贴板将内容识别为html的关键参数。
+        下面为注册"HTML Format"格式的过程。注册函数返回一个整数数字，该数字为剪贴板将内容识别为html的关键参数。在本人的运行环境中该数字固定为49388
         '''
         try:
             self.CF_HTML = win32clipboard.RegisterClipboardFormat("HTML Format")
-            report("注册HTML格式成功！CF_HTML值为", self.CF_HTML)
+            report("self.__init__:注册HTML格式成功！CF_HTML值为", self.CF_HTML)
         except:
             report("self.__init__:注册HTML格式失败！")
 
     
     def putIn(self, fragment):
         '''
-        直接将html片段放入剪贴板的函数，逻辑为
+        直接将html片段放入剪贴板的函数，输入html代码片段，运行逻辑为
         1. 读入目标HTML代码
         2. 计算目标代码长度
         3. 生成剪贴板内容
         4. 写入
         四个部分
+        无返回值
         '''
         self.readFragment(fragment)
         self.calculateLength()
@@ -53,7 +54,7 @@ class MainClass:
         '''
         对传入的html字符串进行清洗，并保存在self.fragment中
         '''
-        #检查fragment格式
+        #检查fragment格式，未实现
         pass
         #将fragment存为self.fragment
         self.fragment = fragment
