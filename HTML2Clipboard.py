@@ -138,6 +138,7 @@ def dumpText():
     '''
     dump剪贴板中的文字
     '''
+    text = None
     try:
         win32clipboard.OpenClipboard()
         text = win32clipboard.GetClipboardData()
