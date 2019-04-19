@@ -6,7 +6,7 @@ Created on Apr 11, 2019
 Requires pywin32
 
 """
-import win32clipboard
+import win32clipboard, win32con
 
 #定义report函数用以调试，此处简单的定义为print，可以自己编写report函数实现更复杂的记录
 report = print
@@ -131,6 +131,38 @@ class MainClass:
 
         except:
             report('self.dumpHTML:dump失败!')
+#==============================
+#工具函数
+#==============================
+def dumpText():
+    '''
+    dump剪贴板中的文字
+    '''
+    text = None
+    try:
+        win32clipboard.OpenClipboard()
+        text = win32clipboard.GetClipboardData()
+        #report(src)
+    except:
+        report('dumpText:dump失败')
+    finally:
+        win32clipboard.CloseClipboard()
+        return(text)
+
+def GetAvailableFormats():
+    """
+    返回可以支持的剪贴板格式
+    """
+    formats = []
+    try:
+        win32clipboard.OpenClipboard(0)
+        cf = win32clipboard.EnumClipboardFormats(0)
+        while (cf != 0):
+            formats.append(cf)
+            cf = win32clipboard.EnumClipboardFormats(cf)
+    finally:
+        win32clipboard.CloseClipboard()
+    return(formats)
 
 #=============================
 # 以下为测试部分
@@ -154,9 +186,14 @@ def test_dumpHTML():
     a.dumpHTML()
     print('=============================\n', a.fragment)
 
+def test_getav():
+    a = MainClass()
+    print(a.GetAvailableFormats())
+
+def test_dumpText():
+    print(dumpText())
 
 if __name__ == "__main__":
     #test_dump()
     #test_format()
-    testHTML = '''<section data-role="outer" label="Powered by 135editor.com" style="font-size:16px;"><section class="_135editor" data-tools="135编辑器" data-id="94817" style="border: 0px none; box-sizing: border-box;"><section style="width: 100%;" data-width="100%"><section style="border-left: 6px solid #ffb497;padding-left:6px;box-sizing: border-box;"><section class="135brush" data-brushtype="text" style="background: rgb(255, 232, 223) none repeat scroll 0% 0%; display: inline-block; padding: 2px 12px; letter-spacing: 1.5px; color: rgb(51, 51, 51); font-size: 16px; box-sizing: border-box;">欣赏和珍惜</section></section><section style="padding-left: 5px; box-sizing: border-box;"><section style="border-color: currentcolor currentcolor rgb(208, 208, 208) rgb(208, 208, 208); border-style: none none solid solid; border-width: medium medium 1px 1px; border-image: none 100% / 1 / 0 stretch; box-sizing: border-box;"><section data-autoskip="1" class="135brush" style="padding: 1em; font-size: 14px; letter-spacing: 1.5px; line-height: 1.75em; color: rgb(51, 51, 51); text-align: justify; box-sizing: border-box;"><p>即使在清贫的岁月，也不能失去对幸福美好的向往，那些摆脱平庸的梦总能编制我们简单的生活，为我们简单的时光点缀希望。不能说我们总要多热爱生活，但总要有一颗懂得欣赏和珍惜的心。</p></section></section><section style="width: 1.2em;background: #ffb497;height:6px;float: right;"></section><section style="clear: both;"></section></section></section></section><section class="_135editor" data-role="paragraph" style="border: 0px none; box-sizing: border-box;"><p><br></p></section></section>'''
-    test_dumpHTML()
+    test_dumpText()
